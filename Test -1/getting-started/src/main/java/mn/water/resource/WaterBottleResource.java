@@ -1,0 +1,52 @@
+package mn.water.resource;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import mn.water.dto.WaterBottleDto;
+import mn.water.entity.WaterBottle;
+import mn.water.service.WaterBottleService;
+
+import java.util.List;
+
+@Path("/water-bottles")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class WaterBottleResource {
+
+    @Inject
+    WaterBottleService service;
+
+    @GET
+    public List<WaterBottle> getAll() {
+        return service.getAll();
+    }
+
+    @GET
+    @Path("/{id}")
+    public WaterBottle getOne(
+            @PathParam("id") Long id
+    ) {
+        return service.getOne(id);
+    }
+
+    @POST
+    public WaterBottleDto createBottle(WaterBottleDto dto) {
+        return service.createBottle(dto);
+    }
+
+    @PUT
+    @Path("/{id}")
+    public WaterBottleDto updateBottle(
+            @PathParam("id") Long id,
+            WaterBottleDto dto) {
+
+        return service.updateBottle(id, dto);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void deleteBottle(@PathParam("id") Long id) {
+        service.deleteBottle(id);
+    }
+}
