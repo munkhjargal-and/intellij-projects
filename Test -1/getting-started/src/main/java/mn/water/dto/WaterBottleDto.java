@@ -5,7 +5,7 @@ public class WaterBottleDto {
     private Long id;
     private String brand;
     private Double capacity;
-
+    private String barcode;
     public Long getId() {return id;}
 
     public void setId(Long id) {this.id = id;}
@@ -17,4 +17,8 @@ public class WaterBottleDto {
     public Double getCapacity() {return capacity;}
 
     public void setCapacity(Double capacity) {this.capacity = capacity;}
+
+    public String getBarcode() {return barcode;}
+
+    public void setBarcode(String barcode) {this.barcode = barcode;}
 }

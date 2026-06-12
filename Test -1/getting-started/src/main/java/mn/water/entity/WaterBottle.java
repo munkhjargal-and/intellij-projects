@@ -14,6 +14,8 @@ public class WaterBottle {
 
     private Double capacity;
 
+    private  String barcode;
+
     public Long getId() {
         return id;
     }
@@ -36,5 +38,13 @@ public class WaterBottle {
 
     public void setCapacity(Double capacity) {
         this.capacity = capacity;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 }

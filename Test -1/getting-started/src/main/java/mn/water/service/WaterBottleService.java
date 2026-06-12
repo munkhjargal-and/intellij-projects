@@ -8,7 +8,6 @@ import mn.water.dto.WaterBottleDto;
 import mn.water.entity.WaterBottle;
 import mn.water.repository.WaterBottleRepository;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @ApplicationScoped
 public class WaterBottleService {
@@ -22,6 +21,7 @@ public class WaterBottleService {
         WaterBottle bottle = new WaterBottle();
         bottle.setBrand(dto.getBrand());
         bottle.setCapacity(dto.getCapacity());
+        bottle.setBarcode(dto.getBarcode());
 
         repository.persist(bottle);
 
@@ -45,6 +45,7 @@ public class WaterBottleService {
 
         bottle.setBrand(dto.getBrand());
         bottle.setCapacity(dto.getCapacity());
+        bottle.setBarcode(dto.getBarcode());
 
         repository.update(bottle);
 
