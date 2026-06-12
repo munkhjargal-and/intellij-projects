@@ -1,12 +1,12 @@
-package mn.box.service;
+package mn.water.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
-import mn.box.dto.BoxDto;
-import mn.box.entity.Box;
-import mn.box.repository.BoxRepository;
+import mn.water.dto.BoxDto;
+import mn.water.entity.Box;
+import mn.water.repository.BoxRepository;
 import java.util.List;
 
 @ApplicationScoped

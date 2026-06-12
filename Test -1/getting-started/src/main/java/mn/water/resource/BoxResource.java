@@ -1,11 +1,11 @@
-package mn.box.resource;
+package mn.water.resource;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import mn.box.dto.BoxDto;
-import mn.box.entity.Box;
-import mn.box.service.BoxService;
+import mn.water.dto.BoxDto;
+import mn.water.entity.Box;
+import mn.water.service.BoxService;
 
 import java.util.List;
 

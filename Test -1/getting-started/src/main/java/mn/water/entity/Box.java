@@ -1,4 +1,4 @@
-package mn.box.entity;
+package mn.water.entity;
 
 import jakarta.persistence.*;
 

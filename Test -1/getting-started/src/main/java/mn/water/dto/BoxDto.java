@@ -1,4 +1,4 @@
-package mn.box.dto;
+package mn.water.dto;
 
 public class BoxDto {
 

@@ -1,10 +1,10 @@
-package mn.box.repository;
+package mn.water.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.ws.rs.NotFoundException;
-import mn.box.entity.Box;
+import mn.water.entity.Box;
 import java.util.List;
 import java.util.NoSuchElementException;
 
