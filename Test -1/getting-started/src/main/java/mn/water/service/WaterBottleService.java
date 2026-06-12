@@ -19,6 +19,7 @@ public class WaterBottleService {
     public WaterBottleDto createBottle(WaterBottleDto dto) {
 
         WaterBottle bottle = new WaterBottle();
+        bottle.setVendorId(dto.getVendorId());
         bottle.setBrand(dto.getBrand());
         bottle.setCapacity(dto.getCapacity());
         bottle.setBarcode(dto.getBarcode());
@@ -43,6 +44,7 @@ public class WaterBottleService {
             throw new NotFoundException("Bottle not found");
         }
 
+        bottle.setVendorId(dto.getVendorId());
         bottle.setBrand(dto.getBrand());
         bottle.setCapacity(dto.getCapacity());
         bottle.setBarcode(dto.getBarcode());

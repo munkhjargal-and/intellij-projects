@@ -1,7 +1,6 @@
 package mn.water.entity;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 
 @Entity
@@ -10,6 +9,7 @@ public class Vendor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private Long registrationNumber;
     private Date contractSignedDate;

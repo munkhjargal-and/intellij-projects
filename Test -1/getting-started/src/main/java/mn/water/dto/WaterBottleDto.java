@@ -3,12 +3,21 @@ package mn.water.dto;
 public class WaterBottleDto {
 
     private Long id;
+    private Long vendorId;
     private String brand;
     private Double capacity;
     private String barcode;
     public Long getId() {return id;}
 
     public void setId(Long id) {this.id = id;}
+
+    public Long getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+    }
 
     public String getBrand() {return brand;}
 
