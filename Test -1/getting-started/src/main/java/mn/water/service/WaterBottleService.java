@@ -74,6 +74,6 @@ public class WaterBottleService {
     }
 
     public List<WaterBottle> getBottles(Long id) {
-        return waterBottleRepository.findBottles(id);
+        return waterBottleRepository.findBottlesByVendor(id);
     }
 }
