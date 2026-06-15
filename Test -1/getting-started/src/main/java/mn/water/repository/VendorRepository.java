@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.ws.rs.NotFoundException;
 import mn.water.entity.Vendor;
+import mn.water.entity.WaterBottle;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,5 +45,11 @@ public class VendorRepository {
     public void delete(Vendor vendor) {
         em.remove(vendor);
     }
-}
 
+    public List<WaterBottle> findBottles(Long id){
+        return em.createQuery(
+                "SELECT w FROM WaterBottle w",
+                WaterBottle.class
+        ).getResultList();
+    }
+}

@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import mn.water.dto.VendorDto;
 import mn.water.entity.Vendor;
+import mn.water.entity.WaterBottle;
 import mn.water.service.VendorService;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public class VendorResource {
         return  service.getOne(id);
     }
 
+    @GET
+    @Path("/{id}/bottles")
+    public List<WaterBottle> findBottles(
+            @PathParam("id") Long id
+    ) {
+        return service.findBottles(id);
+    }
+
     @POST
     public VendorDto createVendor(VendorDto dto) {
         return service.createVendor(dto);
@@ -45,7 +54,6 @@ public class VendorResource {
 
     @DELETE
     @Path(("/{id}"))
-
     public void deleteVendor(@PathParam("id") Long id) {
         service.deleteVendor(id);
     }

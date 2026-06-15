@@ -2,8 +2,10 @@ package mn.water.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "vendor")
@@ -12,6 +14,18 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendor")
+    private List<WaterBottle> bottle = new ArrayList<>();
+
+    public Vendor(Long id, String name){
+        super();
+        this.id = id;
+        this.name = name;
+    }
+    public Vendor(){
+        super();
+    }
 
     private Long registrationNumber;
     private Date contractSignedDate;

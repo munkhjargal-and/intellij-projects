@@ -3,17 +3,16 @@ package mn.water.entity;
 import jakarta.persistence.*;
 
 @Entity
-@IdClass(Vendor.class)
 @Table(name = "water_bottle")
 public class WaterBottle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id @ManyToOne
-    Vendor id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vendor_id")
+    Vendor vendor;
 
-    private Long vendorId;
 
     private String brand;
 
@@ -27,14 +26,6 @@ public class WaterBottle {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
     }
 
     public String getBrand() {

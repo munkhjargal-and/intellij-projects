@@ -50,4 +50,10 @@ public class WaterBottleRepository {
     }
 
 
+    public List<WaterBottle> findBottles(Long id) {
+        return em.createQuery(
+                "SELECT w FROM WaterBottle w",
+                WaterBottle.class
+        ).getResultList();
+    }
 }

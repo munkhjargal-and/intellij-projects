@@ -11,13 +11,6 @@ public class WaterBottleDto {
 
     public void setId(Long id) {this.id = id;}
 
-    public Long getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
-    }
 
     public String getBrand() {return brand;}
 
