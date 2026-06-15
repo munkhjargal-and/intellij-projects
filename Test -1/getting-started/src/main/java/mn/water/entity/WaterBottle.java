@@ -3,13 +3,18 @@ package mn.water.entity;
 import jakarta.persistence.*;
 
 @Entity
+@IdClass(Vendor.class)
 @Table(name = "water_bottle")
 public class WaterBottle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Id @ManyToOne
+    Vendor id;
+
     private Long vendorId;
+
     private String brand;
 
     private Double capacity;

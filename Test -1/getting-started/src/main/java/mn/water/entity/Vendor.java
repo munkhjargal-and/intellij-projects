@@ -1,6 +1,8 @@
 package mn.water.entity;
 
 import jakarta.persistence.*;
+
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -9,8 +11,8 @@ public class Vendor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
+
     private Long registrationNumber;
     private Date contractSignedDate;
     private Date getContractEndDate;
@@ -54,4 +56,5 @@ public class Vendor {
     public void setGetContractEndDate(Date getContractEndDate) {
         this.getContractEndDate = getContractEndDate;
     }
+
 }
