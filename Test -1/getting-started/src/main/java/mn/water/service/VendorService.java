@@ -5,11 +5,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import mn.water.dto.VendorDto;
-import mn.water.entity.Box;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 import mn.water.repository.VendorRepository;
-import mn.water.repository.WaterBottleRepository;
 
 import java.util.List;
 
@@ -69,7 +67,7 @@ public class VendorService {
     }
 
     @Transactional
-    public List<WaterBottle> findBottles(Long id) {
-        return waterBottleService.getBottles(id);
+    public List<WaterBottle> findBottles(Vendor vendor) {
+        return waterBottleService.getBottlesByVendor(vendor);
     }
 }

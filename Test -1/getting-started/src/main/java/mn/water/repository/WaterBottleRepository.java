@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.ws.rs.NotFoundException;
-import mn.water.entity.Box;
+import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 
 import java.util.List;
@@ -51,14 +51,12 @@ public class WaterBottleRepository {
     }
 
 
-    public List<WaterBottle> findBottlesByVendor(Long id) {
-
-
+    public List<WaterBottle> findBottlesByVendor(Vendor vendor) {
         try{
             return em.createQuery(
-                    "SELECT w FROM WaterBottle w WHERE vendor_id = :id",
+                    "SELECT w FROM WaterBottle w WHERE vendor = :vendor",
                     WaterBottle.class
-            ).getResultList();
+            ).setParameter("vendor", vendor).getResultList();
         } catch (NoSuchElementException e){
             throw new NotFoundException(e);
         }

@@ -13,7 +13,6 @@ public class WaterBottle {
     @JoinColumn(name = "vendor_id")
     Vendor vendor;
 
-
     private String brand;
 
     private Double capacity;

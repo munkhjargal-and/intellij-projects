@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import mn.water.dto.WaterBottleDto;
+import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 import mn.water.repository.WaterBottleRepository;
 import java.util.List;
@@ -73,7 +74,7 @@ public class WaterBottleService {
         return repository.findOne(id);
     }
 
-    public List<WaterBottle> getBottles(Long id) {
-        return waterBottleRepository.findBottlesByVendor(id);
+    public List<WaterBottle> getBottlesByVendor(Vendor vendor) {
+        return waterBottleRepository.findBottlesByVendor(vendor);
     }
 }
