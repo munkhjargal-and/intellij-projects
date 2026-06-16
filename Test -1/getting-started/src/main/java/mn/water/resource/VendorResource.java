@@ -35,6 +35,8 @@ public class VendorResource {
     public List<WaterBottle> findBottles(
             @PathParam("id") Long id
     ) {
+
+
         Vendor vendor = this.getOne(id);
         return service.findBottles(vendor);
     }
