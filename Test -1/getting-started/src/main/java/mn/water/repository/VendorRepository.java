@@ -3,7 +3,9 @@ package mn.water.repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.NotFoundException;
+import mn.water.dto.VendorSomeDto;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 
@@ -51,5 +53,17 @@ public class VendorRepository {
                 "SELECT w FROM WaterBottle w",
                 WaterBottle.class
         ).getResultList();
+    }
+
+    public VendorSomeDto findPage(int page, int pageSize) {
+        TypedQuery<Long> countQuery = em.createQuery(
+                "SELECT COUNT(v) FROM Vendor v",
+                Long.class
+        );
+        TypedQuery<Vendor> dataQuery = em.createQuery(
+                "SELECT v FROM Vendor v",
+                Vendor.class
+        ).setMaxResults(pageSize).setFirstResult(Math.multiplyExact(page, pageSize));
+        return new VendorSomeDto(page, pageSize, countQuery.getFirstResult(), dataQuery.getResultList());
     }
 }

@@ -3,9 +3,14 @@ package mn.water.resource;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import mn.water.dto.WbSomeDto;
 import mn.water.dto.WaterBottleDto;
 import mn.water.entity.WaterBottle;
+import mn.water.repository.WaterBottleRepository;
 import mn.water.service.WaterBottleService;
+import org.jboss.resteasy.reactive.RestQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -13,9 +18,12 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class WaterBottleResource {
+    private static final Logger log = LoggerFactory.getLogger(WaterBottleResource.class);
 
     @Inject
     WaterBottleService service;
+    @Inject
+    WaterBottleRepository waterBottleRepository;
 
     @GET
     public List<WaterBottle> getAll() {
@@ -30,11 +38,19 @@ public class WaterBottleResource {
         return service.getOne(id);
     }
 
+    @GET
+    @Path("total-pages")
+    public WbSomeDto somePages(
+            @RestQuery int page,
+            @RestQuery int pageSize
+    ){
+        return service.getPage(page, pageSize);
+    }
+
     @POST
     public WaterBottleDto createBottle(WaterBottleDto dto) {
         return service.createBottle(dto);
     }
-
     @PUT
     @Path("/{id}")
     public WaterBottleDto updateBottle(

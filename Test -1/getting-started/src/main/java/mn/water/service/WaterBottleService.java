@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import mn.water.dto.WbSomeDto;
 import mn.water.dto.WaterBottleDto;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
@@ -76,5 +77,9 @@ public class WaterBottleService {
 
     public List<WaterBottle> getBottlesByVendor(Vendor vendor) {
         return waterBottleRepository.findBottlesByVendor(vendor);
+    }
+
+    public WbSomeDto getPage(int page, int pageSize) {
+        return waterBottleRepository.findPage(page, pageSize);
     }
 }

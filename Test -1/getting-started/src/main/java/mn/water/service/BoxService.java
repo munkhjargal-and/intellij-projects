@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import mn.water.dto.BoxDto;
+import mn.water.dto.BoxSomeDto;
 import mn.water.entity.Box;
 import mn.water.repository.BoxRepository;
 import java.util.List;
@@ -15,6 +16,8 @@ public class BoxService {
     @Inject
     BoxRepository repository;
 
+    @Inject
+    BoxRepository boxRepository;
     @Transactional
     public BoxDto createBox(BoxDto dto) {
 
@@ -73,5 +76,9 @@ public class BoxService {
     public Float getVolume(Long id) {
         Box box = this.getOne(id);
         return box.getHeight() * box.getWidth() * box.getLength();
+    }
+
+    public BoxSomeDto getPage(int page, int pageSize) {
+        return boxRepository.findPage(page, pageSize);
     }
 }

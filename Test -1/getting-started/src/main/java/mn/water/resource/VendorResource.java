@@ -4,9 +4,12 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import mn.water.dto.VendorDto;
+import mn.water.dto.VendorSomeDto;
+import mn.water.dto.WbSomeDto;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 import mn.water.service.VendorService;
+import org.jboss.resteasy.reactive.RestQuery;
 
 import java.util.List;
 
@@ -38,6 +41,16 @@ public class VendorResource {
         Vendor vendor = this.getOne(id);
         return service.findBottles(vendor);
     }
+
+    @GET
+    @Path("total-pages")
+    public VendorSomeDto somePages(
+            @RestQuery int page,
+            @RestQuery int pageSize
+    ){
+        return service.getPage(page, pageSize);
+    }
+
 
     @POST
     public VendorDto createVendor(VendorDto dto) {

@@ -4,8 +4,10 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import mn.water.dto.BoxDto;
+import mn.water.dto.BoxSomeDto;
 import mn.water.entity.Box;
 import mn.water.service.BoxService;
+import org.jboss.resteasy.reactive.RestQuery;
 
 import java.util.List;
 
@@ -37,6 +39,16 @@ public class BoxResource {
     ) {
         return service.getVolume(id);
     }
+
+    @GET
+    @Path("total-pages")
+    public BoxSomeDto somePages(
+            @RestQuery int page,
+            @RestQuery int pageSize
+    ){
+        return service.getPage(page, pageSize);
+    }
+
     @POST
     public BoxDto createBox(BoxDto dto) {
         return service.createBox(dto);

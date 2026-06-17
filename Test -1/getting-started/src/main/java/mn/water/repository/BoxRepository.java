@@ -3,8 +3,13 @@ package mn.water.repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.NotFoundException;
+import mn.water.dto.BoxSomeDto;
+import mn.water.dto.WbSomeDto;
 import mn.water.entity.Box;
+import mn.water.entity.WaterBottle;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -46,5 +51,15 @@ public class BoxRepository {
         em.remove(box);
     }
 
-
+    public BoxSomeDto findPage(int page, int pageSize) {
+        TypedQuery<Long> countQuery = em.createQuery(
+                "SELECT COUNT(b) FROM Box b",
+                Long.class
+        );
+        TypedQuery<Box> dataQuery = em.createQuery(
+                "SELECT b FROM Box b",
+                Box.class
+        ).setMaxResults(pageSize).setFirstResult(Math.multiplyExact(page, pageSize));
+        return new BoxSomeDto(page, pageSize, countQuery.getFirstResult(), dataQuery.getResultList());
+    }
 }
