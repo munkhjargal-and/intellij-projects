@@ -1,23 +1,20 @@
 package mn.water.dto;
 
-import mn.water.entity.Box;
-
 import java.util.List;
 
-public class BoxSomeDto {
+public class SomeDto<E> {
     private int page;
     private int pageSize;
     private int total;
-    private List<Box> data;
+    private List<E> data;
 
-    public BoxSomeDto(int page, int pageSize, int total, List<Box> data) {
+
+    public SomeDto(int page, int pageSize, int total, List<E> data) {
         this.page = page;
         this.pageSize = pageSize;
         this.total = total;
         this.data = data;
     }
-
-
 
     public int getPage() {
         return page;
@@ -43,11 +40,11 @@ public class BoxSomeDto {
         this.total = total;
     }
 
-    public List<Box> getData() {
+    public List<E> getData() {
         return data;
     }
 
-    public void setData(List<Box> data) {
+    public void setData(List<E> data) {
         this.data = data;
     }
 }

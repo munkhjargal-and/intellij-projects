@@ -3,7 +3,7 @@ package mn.water.resource;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import mn.water.dto.WbSomeDto;
+import mn.water.dto.SomeDto;
 import mn.water.dto.WaterBottleDto;
 import mn.water.entity.WaterBottle;
 import mn.water.repository.WaterBottleRepository;
@@ -40,7 +40,7 @@ public class WaterBottleResource {
 
     @GET
     @Path("total-pages")
-    public WbSomeDto somePages(
+    public SomeDto<WaterBottle> somePages(
             @RestQuery int page,
             @RestQuery int pageSize
     ){

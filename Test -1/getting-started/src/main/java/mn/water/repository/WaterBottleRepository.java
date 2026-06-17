@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.NotFoundException;
-import mn.water.dto.WbSomeDto;
+import mn.water.dto.SomeDto;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 
@@ -75,7 +75,7 @@ public class WaterBottleRepository {
         return new SomeDto(0, 20, 1000000, x);
     }
 */
-    public WbSomeDto findPage(int page, int pageSize) {
+    public SomeDto<WaterBottle> findPage(int page, int pageSize) {
         TypedQuery<Long> countQuery = em.createQuery(
                 "SELECT COUNT(w) FROM WaterBottle w",
                 Long.class
@@ -84,6 +84,6 @@ public class WaterBottleRepository {
                 "SELECT w FROM WaterBottle w",
                 WaterBottle.class
         ).setMaxResults(pageSize).setFirstResult(Math.multiplyExact(page, pageSize));
-        return new WbSomeDto(page, pageSize, countQuery.getFirstResult(), dataQuery.getResultList());
+        return new SomeDto<WaterBottle>(page, pageSize, countQuery.getFirstResult(), dataQuery.getResultList());
     }
 }

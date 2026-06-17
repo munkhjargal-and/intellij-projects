@@ -4,7 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import mn.water.dto.BoxDto;
-import mn.water.dto.BoxSomeDto;
+import mn.water.dto.SomeDto;
 import mn.water.entity.Box;
 import mn.water.service.BoxService;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -42,7 +42,7 @@ public class BoxResource {
 
     @GET
     @Path("total-pages")
-    public BoxSomeDto somePages(
+    public SomeDto<Box> somePages(
             @RestQuery int page,
             @RestQuery int pageSize
     ){

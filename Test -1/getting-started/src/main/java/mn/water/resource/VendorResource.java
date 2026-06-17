@@ -3,9 +3,8 @@ package mn.water.resource;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import mn.water.dto.SomeDto;
 import mn.water.dto.VendorDto;
-import mn.water.dto.VendorSomeDto;
-import mn.water.dto.WbSomeDto;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 import mn.water.service.VendorService;
@@ -44,7 +43,7 @@ public class VendorResource {
 
     @GET
     @Path("total-pages")
-    public VendorSomeDto somePages(
+    public SomeDto<Vendor> somePages(
             @RestQuery int page,
             @RestQuery int pageSize
     ){
