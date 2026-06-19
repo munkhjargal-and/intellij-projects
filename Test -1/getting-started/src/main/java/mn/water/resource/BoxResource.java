@@ -50,7 +50,18 @@ public class BoxResource {
     ){
         return service.getPage(page, pageSize, sortBy, sortMode);
     }
-
+    @GET
+    @Path("filter-pages")
+    public SomeDto<Box> somePages(
+            @RestQuery int page,
+            @RestQuery int pageSize,
+            @RestQuery String sortBy,
+            @RestQuery String sortMode,
+            @RestQuery String filterBy,
+            @RestQuery String filterVal
+    ){
+        return service.getPage1(page, pageSize, sortBy, sortMode, filterBy, filterVal);
+    }
     @POST
     public BoxDto createBox(BoxDto dto) {
         return service.createBox(dto);

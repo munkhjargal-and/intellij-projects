@@ -70,7 +70,6 @@ public class VendorRepository {
         realBottle = realFindBottles.getResultList();
         return realBottle;
     }
-
     @Transactional
     public SomeDto<Vendor> findPage(int page, int pageSize, String sortBy, String sortMode){
 
@@ -94,6 +93,40 @@ public class VendorRepository {
             );
         }
 
+        TypedQuery<Vendor> realDataQuery = em.createQuery(dataQuery);
+        List<Vendor> dataFromDb = realDataQuery.getResultList();
+
+        CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
+        Root<Vendor> root2 = countCriteriaQuery.from(Vendor.class);
+        countCriteriaQuery.select(cb.count(root2));
+        TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
+        Long countFromDb = realQuery.getResultList().getFirst();
+
+        return new SomeDto<>(page, pageSize, countFromDb.intValue(), dataFromDb);
+    }
+    @Transactional
+    public SomeDto<Vendor> filterPage(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal){
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Vendor> dataQuery = cb.createQuery(Vendor.class);
+        Root<Vendor> root1 = dataQuery.from(Vendor.class);
+        dataQuery = dataQuery.select(root1);
+        if(Objects.equals(sortMode, "DESC")){
+            dataQuery.orderBy(
+                    cb.desc(root1.get(sortBy))
+            );
+        }
+        else if (Objects.equals(sortMode, "ASC")){
+            dataQuery.orderBy(
+                    cb.asc(root1.get(sortBy))
+            );
+        }
+        else{
+            dataQuery.orderBy(
+                    cb.asc(root1.get(sortBy))
+            );
+        }
+        dataQuery.select(root1).where(cb.equal(root1.get(filterBy), filterVal));
         TypedQuery<Vendor> realDataQuery = em.createQuery(dataQuery);
         List<Vendor> dataFromDb = realDataQuery.getResultList();
 
