@@ -32,8 +32,8 @@ public class WaterBottleRepository {
     public List<WaterBottle> findAll() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<WaterBottle> findAllQuery = cb.createQuery(WaterBottle.class);
-        Root<WaterBottle> f1 = findAllQuery.from(WaterBottle.class);
-        findAllQuery.select(f1);
+        Root<WaterBottle> root1 = findAllQuery.from(WaterBottle.class);
+        findAllQuery.select(root1);
         TypedQuery<WaterBottle> realFindAll = em.createQuery(findAllQuery);
         List<WaterBottle> allBottles;
         allBottles = realFindAll.getResultList();
@@ -44,8 +44,8 @@ public class WaterBottleRepository {
         try{
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<WaterBottle> findOneQuery = cb.createQuery(WaterBottle.class);
-            Root<WaterBottle> f1 = findOneQuery.from(WaterBottle.class);
-            findOneQuery.select(f1).where(cb.equal(f1.get("id"), id));
+            Root<WaterBottle> root1 = findOneQuery.from(WaterBottle.class);
+            findOneQuery.select(root1).where(cb.equal(root1.get("id"), id));
             TypedQuery<WaterBottle> realFindOne = em.createQuery(findOneQuery);
             WaterBottle oneBottle;
             oneBottle = realFindOne.getSingleResult();
@@ -67,8 +67,8 @@ public class WaterBottleRepository {
         try{
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<WaterBottle> findBottlesByVendorQuery = cb.createQuery(WaterBottle.class);
-            Root<WaterBottle> f1 = findBottlesByVendorQuery.from(WaterBottle.class);
-            findBottlesByVendorQuery.select(f1).where(cb.equal(f1.get("vendor"), vendor));
+            Root<WaterBottle> root1 = findBottlesByVendorQuery.from(WaterBottle.class);
+            findBottlesByVendorQuery.select(root1).where(cb.equal(root1.get("vendor"), vendor));
             TypedQuery<WaterBottle> realFindBottlesByVendor = em.createQuery(findBottlesByVendorQuery);
             List<WaterBottle> bottlesByVendor;
             bottlesByVendor = realFindBottlesByVendor.getResultList();
@@ -84,21 +84,21 @@ public class WaterBottleRepository {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<WaterBottle> dataQuery = cb.createQuery(WaterBottle.class);
-        Root<WaterBottle> f1 = dataQuery.from(WaterBottle.class);
-        dataQuery = dataQuery.select(f1);
+        Root<WaterBottle> root1 = dataQuery.from(WaterBottle.class);
+        dataQuery = dataQuery.select(root1);
         if(Objects.equals(sortMode, "DESC")){
             dataQuery.orderBy(
-                    cb.desc(f1.get(sortBy))
+                    cb.desc(root1.get(sortBy))
             );
         }
         else if (Objects.equals(sortMode, "ASC")){
             dataQuery.orderBy(
-                    cb.asc(f1.get(sortBy))
+                    cb.asc(root1.get(sortBy))
             );
         }
         else{
             dataQuery.orderBy(
-                    cb.asc(f1.get(sortBy))
+                    cb.asc(root1.get(sortBy))
             );
         }
 
@@ -106,8 +106,8 @@ public class WaterBottleRepository {
         List<WaterBottle> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
-        Root<WaterBottle> f2 = countCriteriaQuery.from(WaterBottle.class);
-        countCriteriaQuery.select(cb.count(f2));
+        Root<WaterBottle> root2 = countCriteriaQuery.from(WaterBottle.class);
+        countCriteriaQuery.select(cb.count(root2));
         TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
         Long countFromDb = realQuery.getResultList().getFirst();
 

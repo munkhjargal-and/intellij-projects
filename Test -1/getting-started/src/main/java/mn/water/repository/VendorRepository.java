@@ -30,8 +30,8 @@ public class VendorRepository {
     public List<Vendor> findAll() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Vendor> findAllQuery = cb.createQuery(Vendor.class);
-        Root<Vendor> f1 = findAllQuery.from(Vendor.class);
-        findAllQuery.select(f1);
+        Root<Vendor> root1 = findAllQuery.from(Vendor.class);
+        findAllQuery.select(root1);
         TypedQuery<Vendor> realFindAll = em.createQuery(findAllQuery);
         List<Vendor> allBottles;
         allBottles = realFindAll.getResultList();
@@ -43,8 +43,8 @@ public class VendorRepository {
         try{
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Vendor> findOneQuery = cb.createQuery(Vendor.class);
-            Root<Vendor> f1 = findOneQuery.from(Vendor.class);
-            findOneQuery.select(f1).where(cb.equal(f1.get("id"), id));
+            Root<Vendor> root1 = findOneQuery.from(Vendor.class);
+            findOneQuery.select(root1).where(cb.equal(root1.get("id"), id));
             TypedQuery<Vendor> realFindOne = em.createQuery(findOneQuery);
             Vendor oneBottle;
             oneBottle = realFindOne.getSingleResult();
@@ -63,8 +63,8 @@ public class VendorRepository {
     public List<WaterBottle> findBottles(Long id){
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<WaterBottle> findBottlesQuery = cb.createQuery(WaterBottle.class);
-        Root<WaterBottle> f1 = findBottlesQuery.from(WaterBottle.class);
-        findBottlesQuery.select(f1);
+        Root<WaterBottle> root1 = findBottlesQuery.from(WaterBottle.class);
+        findBottlesQuery.select(root1);
         TypedQuery<WaterBottle> realFindBottles = em.createQuery(findBottlesQuery);
         List<WaterBottle> realBottle;
         realBottle = realFindBottles.getResultList();
@@ -76,21 +76,21 @@ public class VendorRepository {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Vendor> dataQuery = cb.createQuery(Vendor.class);
-        Root<Vendor> f1 = dataQuery.from(Vendor.class);
-        dataQuery = dataQuery.select(f1);
+        Root<Vendor> root1 = dataQuery.from(Vendor.class);
+        dataQuery = dataQuery.select(root1);
         if(Objects.equals(sortMode, "DESC")){
             dataQuery.orderBy(
-                    cb.desc(f1.get(sortBy))
+                    cb.desc(root1.get(sortBy))
             );
         }
         else if (Objects.equals(sortMode, "ASC")){
             dataQuery.orderBy(
-                    cb.asc(f1.get(sortBy))
+                    cb.asc(root1.get(sortBy))
             );
         }
         else{
             dataQuery.orderBy(
-                    cb.asc(f1.get(sortBy))
+                    cb.asc(root1.get(sortBy))
             );
         }
 
@@ -98,8 +98,8 @@ public class VendorRepository {
         List<Vendor> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
-        Root<Vendor> f2 = countCriteriaQuery.from(Vendor.class);
-        countCriteriaQuery.select(cb.count(f2));
+        Root<Vendor> root2 = countCriteriaQuery.from(Vendor.class);
+        countCriteriaQuery.select(cb.count(root2));
         TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
         Long countFromDb = realQuery.getResultList().getFirst();
 

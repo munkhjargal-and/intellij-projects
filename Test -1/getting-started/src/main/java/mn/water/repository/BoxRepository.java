@@ -33,8 +33,8 @@ public class BoxRepository {
     public List<Box> findAll() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Box> findAllQuery = cb.createQuery(Box.class);
-        Root<Box> f1 = findAllQuery.from(Box.class);
-        findAllQuery.select(f1);
+        Root<Box> root1 = findAllQuery.from(Box.class);
+        findAllQuery.select(root1);
         TypedQuery<Box> realFindAll = em.createQuery(findAllQuery);
         List<Box> allBottles;
         allBottles = realFindAll.getResultList();
@@ -46,8 +46,8 @@ public class BoxRepository {
         try{
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Box> findOneQuery = cb.createQuery(Box.class);
-            Root<Box> f1 = findOneQuery.from(Box.class);
-            findOneQuery.select(f1).where(cb.equal(f1.get("id"), id));
+            Root<Box> root1 = findOneQuery.from(Box.class);
+            findOneQuery.select(root1).where(cb.equal(root1.get("id"), id));
             TypedQuery<Box> realFindOne = em.createQuery(findOneQuery);
             Box oneBottle;
             oneBottle = realFindOne.getSingleResult();
@@ -69,21 +69,21 @@ public class BoxRepository {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Box> dataQuery = cb.createQuery(Box.class);
-        Root<Box> f1 = dataQuery.from(Box.class);
-        dataQuery = dataQuery.select(f1);
+        Root<Box> root1 = dataQuery.from(Box.class);
+        dataQuery = dataQuery.select(root1);
         if(Objects.equals(sortMode, "DESC")){
             dataQuery.orderBy(
-                    cb.desc(f1.get(sortBy))
+                    cb.desc(root1.get(sortBy))
             );
         }
         else if (Objects.equals(sortMode, "ASC")){
             dataQuery.orderBy(
-                    cb.asc(f1.get(sortBy))
+                    cb.asc(root1.get(sortBy))
             );
         }
         else{
             dataQuery.orderBy(
-                    cb.asc(f1.get(sortBy))
+                    cb.asc(root1.get(sortBy))
             );
         }
 
@@ -91,8 +91,8 @@ public class BoxRepository {
         List<Box> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
-        Root<Box> f2 = countCriteriaQuery.from(Box.class);
-        countCriteriaQuery.select(cb.count(f2));
+        Root<Box> root2 = countCriteriaQuery.from(Box.class);
+        countCriteriaQuery.select(cb.count(root2));
         TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
         Long countFromDb = realQuery.getResultList().getFirst();
 
