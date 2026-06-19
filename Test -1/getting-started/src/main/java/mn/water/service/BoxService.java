@@ -78,7 +78,7 @@ public class BoxService {
         return box.getHeight() * box.getWidth() * box.getLength();
     }
 
-    public SomeDto<Box> getPage(int page, int pageSize) {
-        return boxRepository.findPage(page, pageSize);
+    public SomeDto<Box> getPage(int page, int pageSize, String sortBy,String sortMode) {
+        return boxRepository.findPage(page, pageSize, sortBy, sortMode);
     }
 }

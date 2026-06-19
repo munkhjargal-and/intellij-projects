@@ -42,9 +42,11 @@ public class WaterBottleResource {
     @Path("total-pages")
     public SomeDto<WaterBottle> somePages(
             @RestQuery int page,
-            @RestQuery int pageSize
+            @RestQuery int pageSize,
+            @RestQuery String sortBy,
+            @RestQuery String sortMode
     ){
-        return service.getPage(page, pageSize);
+        return service.getPage(page, pageSize, sortBy, sortMode);
     }
 
     @POST

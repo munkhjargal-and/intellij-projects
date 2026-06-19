@@ -77,7 +77,7 @@ public class VendorService {
         return waterBottleService.getBottlesByVendor(vendor);
     }
 
-    public SomeDto<Vendor> getPage(int page, int pageSize) {
-        return vendorRepository.findPage(page, pageSize);
+    public SomeDto<Vendor> getPage(int page, int pageSize, String sortBy, String sortMode) {
+        return vendorRepository.findPage(page, pageSize, sortBy, sortMode);
     }
 }

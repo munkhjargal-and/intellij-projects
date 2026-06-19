@@ -79,7 +79,7 @@ public class WaterBottleService {
         return waterBottleRepository.findBottlesByVendor(vendor);
     }
 
-    public SomeDto<WaterBottle> getPage(int page, int pageSize) {
-        return waterBottleRepository.findPage(page, pageSize);
+    public SomeDto<WaterBottle> getPage(int page, int pageSize, String sortBy, String sortMode) {
+        return waterBottleRepository.findPage(page, pageSize, sortBy, sortMode);
     }
 }

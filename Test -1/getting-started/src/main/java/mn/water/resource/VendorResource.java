@@ -45,9 +45,11 @@ public class VendorResource {
     @Path("total-pages")
     public SomeDto<Vendor> somePages(
             @RestQuery int page,
-            @RestQuery int pageSize
+            @RestQuery int pageSize,
+            @RestQuery String sortBy,
+            @RestQuery String sortMode
     ){
-        return service.getPage(page, pageSize);
+        return service.getPage(page, pageSize, sortBy, sortMode);
     }
 
 
