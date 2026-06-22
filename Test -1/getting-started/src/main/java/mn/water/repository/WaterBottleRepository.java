@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
@@ -144,8 +143,7 @@ public class WaterBottleRepository {
         countCriteriaQuery.select(cb.count(root2));
         TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
         Long countFromDb = realQuery.getResultList().getFirst();
-
-
+        
         return new SomeDto<>(page, pageSize, countFromDb.intValue(), dataFromDb);
     }
 }

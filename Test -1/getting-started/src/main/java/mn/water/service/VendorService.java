@@ -39,7 +39,9 @@ public class VendorService {
         return dto;
     }
 
-    public List<Vendor> getAll(){return repository.findAll();}
+    public List<Vendor> getAll(){
+        return repository.findAll();
+    }
 
     @Transactional
     public VendorDto updateVendor(Long id, VendorDto dto) {
