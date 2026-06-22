@@ -12,7 +12,6 @@ import mn.water.repository.BoxRepository;
 import mn.water.repository.VendorRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @ApplicationScoped
 public class VendorService {
@@ -80,11 +79,7 @@ public class VendorService {
         return waterBottleService.getBottlesByVendor(vendor);
     }
 
-    public SomeDto<Vendor> getPage(int page, int pageSize, String sortBy, String sortMode) {
-        return vendorRepository.findPage(page, pageSize, sortBy, sortMode);
-
-    }
-    public SomeDto<Vendor> getPage1(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal) {
+    public SomeDto<Vendor> getPage(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal) {
         return vendorRepository.filterPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
 
     }

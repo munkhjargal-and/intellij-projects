@@ -44,77 +44,47 @@ public class WaterBottleResource {
     ) {
         return service.getOne(id);
     }
-
-    @GET
-    @Path("total-pages")
-    public SomeDto<WaterBottle> somePages(
-            @RestQuery Integer page,
-            @RestQuery Integer pageSize,
-            @RestQuery String sortBy,
-            @RestQuery String sortMode
-    ){
-        if (page == null){
-            throw new BadRequestException("Enter A Page Number");
-        }
-        if (pageSize == null){
-            throw new BadRequestException("Enter A Page Size");
-        }
-
-        if(page < 0){
-            throw new BadRequestException("Enter A Valid Page Number");
-        }
-        if(pageSize < 0){
-            throw new BadRequestException("Enter A Valid Page Size");
-        }
-        if(sortBy == null || sortMode == null){
-            throw new BadRequestException("Enter A Value For Each Parameter");
-        }
-        var condA = !sortBy.equals(("brand"));
-        var condB = !sortBy.equals("capacity");
-        var condC = !sortBy.equals("barcode");
-        if(condA && condB && condC) {
-            throw new BadRequestException("Enter A Valid Value For Each Parameter");
-        }
-        return service.getPage(page, pageSize, sortBy, sortMode);
-    }
     @GET
     @Path("filter-pages")
     public SomeDto<WaterBottle> filterPages(
-            @RestQuery Integer page,
-            @RestQuery Integer pageSize,
-            @RestQuery String sortBy,
-            @RestQuery String sortMode,
+            @RestQuery @DefaultValue("0") Integer page,
+            @RestQuery @DefaultValue("100") Integer pageSize,
+            @RestQuery @DefaultValue("barcode") String sortBy,
+            @RestQuery @DefaultValue("ASC") String sortMode,
             @RestQuery String filterBy,
             @RestQuery String filterVal
     ){
 
-        if (page == null){
-            throw new BadRequestException("Enter A Page Number");
-        }
-        if (pageSize == null){
-            throw new BadRequestException("Enter A Page Size");
-        }
-
         if(page < 0){
-            throw new BadRequestException("Enter A Valid Page Number");
+            throw new BadRequestException("Enter A Valid PageNumber");
         }
         if(pageSize < 0){
-            throw new BadRequestException("Enter A Valid Page Size");
+            throw new BadRequestException("Enter A Valid PageSize");
         }
-        if(sortBy == null || sortMode == null || filterBy == null || filterVal == null){
-            throw new BadRequestException("Enter A Value For Each Parameter");
+        if(filterBy == null){
+            throw new BadRequestException("Enter A Value For FilterBy");
         }
-        var condA = !sortBy.equals(("brand"));
-        var condB = !sortBy.equals("capacity");
-        var condC = !sortBy.equals("barcode");
-        if(condA && condB && condC) {
-            throw new BadRequestException("Enter A Valid Value For Each Parameter");
+        if(filterVal == null){
+            throw new BadRequestException("Enter A Value For FilterVal");
         }
-
-
-
-
-        return service.getPage1(page, pageSize, sortBy, sortMode, filterBy, filterVal);
+        var sortByA = !sortBy.equals(("brand"));
+        var sortByB = !sortBy.equals("capacity");
+        var sortByC = !sortBy.equals("barcode");
+        if(sortByA && sortByB && sortByC) {
+            throw new BadRequestException("Enter A Valid Value For SortBy");
+        }
+        var sortModeA = !sortMode.equals("ASC");
+        var sortModeB = !sortMode.equals("DESC");
+        if(sortModeA && sortModeB){
+            throw new BadRequestException("Enter A Valid Value For SortMode");
+        }
+        var filterByA = !filterBy.equals("brand");
+        var filterByB = !filterBy.equals("capacity");
+        var filterByC = !filterBy.equals("barcode");
+        if(filterByA && filterByB && filterByC){
+            throw new BadRequestException("Enter A Valid Value For filterBy");
+        }
+        return service.getPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
     }
 
     @POST

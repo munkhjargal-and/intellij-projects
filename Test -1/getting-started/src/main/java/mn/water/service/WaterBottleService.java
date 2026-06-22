@@ -79,10 +79,7 @@ public class WaterBottleService {
         return waterBottleRepository.findBottlesByVendor(vendor);
     }
 
-    public SomeDto<WaterBottle> getPage(int page, int pageSize, String sortBy, String sortMode) {
-        return waterBottleRepository.findPage(page, pageSize, sortBy, sortMode);
-    }
-    public SomeDto<WaterBottle> getPage1(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal) {
+    public SomeDto<WaterBottle> getPage(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal) {
         return waterBottleRepository.filterPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
     }
 }
