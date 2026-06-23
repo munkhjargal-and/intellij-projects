@@ -99,6 +99,8 @@ public class VendorRepository {
             dataQuery.select(root1);
         }
         TypedQuery<Vendor> realDataQuery = em.createQuery(dataQuery);
+        realDataQuery.setMaxResults(pageSize);
+        realDataQuery.setFirstResult(page * pageSize);
         List<Vendor> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);

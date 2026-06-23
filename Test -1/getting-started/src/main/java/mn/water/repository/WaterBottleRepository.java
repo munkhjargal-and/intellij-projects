@@ -99,6 +99,8 @@ public class WaterBottleRepository {
             dataQuery.select(root1);
         }
         TypedQuery<WaterBottle> realDataQuery = em.createQuery(dataQuery);
+        realDataQuery.setMaxResults(pageSize);
+        realDataQuery.setFirstResult(page * pageSize);
         List<WaterBottle> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);

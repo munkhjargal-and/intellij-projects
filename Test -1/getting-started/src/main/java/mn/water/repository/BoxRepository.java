@@ -127,6 +127,8 @@ public class BoxRepository {
             dataQuery.select(root1);
         }
         TypedQuery<Box> realDataQuery = em.createQuery(dataQuery);
+        realDataQuery.setMaxResults(pageSize);
+        realDataQuery.setFirstResult(page * pageSize);
         List<Box> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
