@@ -62,7 +62,8 @@ public class VendorResource {
         var sortByA = !sortBy.equals(("registrationNumber"));
         var sortByB = !sortBy.equals("contractSignedDate");
         var sortByC = !sortBy.equals("getContractEndDate");
-        if(sortByA && sortByB && sortByC) {
+        var sortByD = !sortBy.equals("name");
+        if(sortByA && sortByB && sortByC && sortByD) {
             throw new BadRequestException("Enter A Valid Value For SortBy");
         }
         var sortModeA = !sortMode.equals(("ASC"));
