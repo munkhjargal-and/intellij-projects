@@ -71,6 +71,12 @@ public class VendorResource {
         if(sortModeA && sortModeB) {
             throw new BadRequestException("Enter A Valid Value For SortMode");
         }
+        if(filterBy != null && filterVal == null){
+            throw new BadRequestException("Enter a Value For FilterVal");
+        }
+        if(filterBy == null && filterVal != null){
+            throw new BadRequestException("Enter a Value For FilterBy");
+        }
         if(filterBy != null && filterVal != null){
             var filterByA = !filterBy.equals(("registrationNumber"));
             var filterByB = !filterBy.equals("name");

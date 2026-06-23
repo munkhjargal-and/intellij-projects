@@ -67,12 +67,18 @@ public class WaterBottleResource {
         if(sortModeA && sortModeB){
             throw new BadRequestException("Enter A Valid Value For SortMode");
         }
+        if(filterBy != null && filterVal == null){
+            throw new BadRequestException("Enter a Value For FilterVal");
+        }
+        if(filterBy == null && filterVal != null){
+            throw new BadRequestException("Enter a Value For FilterBy");
+        }
         if(filterBy != null && filterVal != null){
             var filterByA = !filterBy.equals("brand");
             var filterByB = !filterBy.equals("capacity");
             var filterByC = !filterBy.equals("barcode");
             if(filterByA && filterByB && filterByC){
-                throw new BadRequestException("Enter A Valid Value For filterBy");
+                throw new BadRequestException("Enter A Valid Value For FilterBy");
             }
         }
         return service.getPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
