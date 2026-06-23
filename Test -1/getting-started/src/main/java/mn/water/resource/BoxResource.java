@@ -25,10 +25,6 @@ public class BoxResource {
     public RestResponse<String> mapException(WebApplicationException x) {
         return RestResponse.status(Response.Status.NOT_FOUND, x.getMessage());
     }
-    @GET
-    public List<Box> getAll() {
-        return service.getAll();
-    }
 
     @GET
     @Path("/{id}")
@@ -61,12 +57,6 @@ public class BoxResource {
         if(pageSize < 0){
             throw new BadRequestException("Enter A Valid PageSize");
         }
-        if(filterBy == null){
-            throw new BadRequestException("Enter A Value For FilterBy");
-        }
-        if(filterVal == null){
-            throw new BadRequestException("Enter A Value For FilterVal");
-        }
         var sortByA = !sortBy.equals(("length"));
         var sortByB = !sortBy.equals("width");
         var sortByC = !sortBy.equals("height");
@@ -78,11 +68,13 @@ public class BoxResource {
         if(sortModeA && sortModeB){
             throw new BadRequestException("Enter A Valid Value For SortMode");
         }
-        var filterByA = !filterBy.equals("length");
-        var filterByB = !filterBy.equals("width");
-        var filterByC = !filterBy.equals("height");
-        if(filterByA && filterByB && filterByC){
-            throw new BadRequestException("Enter A Valid Value For FilterBy");
+        if(filterBy != null && filterVal != null){
+            var filterByA = !filterBy.equals("length");
+            var filterByB = !filterBy.equals("width");
+            var filterByC = !filterBy.equals("height");
+            if(filterByA && filterByB && filterByC){
+                throw new BadRequestException("Enter A Valid Value For FilterBy");
+            }
         }
         return service.getPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
     }

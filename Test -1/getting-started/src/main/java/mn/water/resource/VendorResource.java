@@ -25,10 +25,6 @@ public class VendorResource {
     public RestResponse<String> mapException(WebApplicationException x) {
         return RestResponse.status(Response.Status.NOT_FOUND, x.getMessage());
     }
-    @GET
-    public List<Vendor> getAll() {
-        return service.getAll();
-    }
 
     @GET
     @Path("/{id}")
@@ -63,12 +59,6 @@ public class VendorResource {
         if(pageSize < 0){
             throw new BadRequestException("Enter A Valid PageSize");
         }
-        if(filterBy == null){
-            throw new BadRequestException("Enter A Value For FilterBy");
-        }
-        if(filterVal == null){
-            throw new BadRequestException("Enter A Value For FilterVal");
-        }
         var sortByA = !sortBy.equals(("registrationNumber"));
         var sortByB = !sortBy.equals("contractSignedDate");
         var sortByC = !sortBy.equals("getContractEndDate");
@@ -80,11 +70,12 @@ public class VendorResource {
         if(sortModeA && sortModeB) {
             throw new BadRequestException("Enter A Valid Value For SortMode");
         }
-        var filterByA = !filterBy.equals(("registrationNumber"));
-        var filterByB = !filterBy.equals("contractSignedDate");
-        var filterByC = !filterBy.equals("getContractEndDate");
-        if(filterByA && filterByB && filterByC) {
-            throw new BadRequestException("Enter A Valid Value For FilterBy");
+        if(filterBy != null && filterVal != null){
+            var filterByA = !filterBy.equals(("registrationNumber"));
+            var filterByB = !filterBy.equals("name");
+            if(filterByA && filterByB) {
+                throw new BadRequestException("Enter A Valid Value For FilterBy");
+            }
         }
         return service.getPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
     }

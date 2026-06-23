@@ -120,13 +120,23 @@ public class BoxRepository {
                     cb.asc(root1.get(sortBy))
             );
         }
-        dataQuery.select(root1).where(cb.equal(root1.get(filterBy), filterVal));
+        if(filterBy != null && filterVal != null){
+            dataQuery.select(root1).where(cb.equal(root1.get(filterBy), filterVal));
+        }
+        else{
+            dataQuery.select(root1);
+        }
         TypedQuery<Box> realDataQuery = em.createQuery(dataQuery);
         List<Box> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
         Root<Box> root2 = countCriteriaQuery.from(Box.class);
-        countCriteriaQuery.select(cb.count(root2));
+        if(filterBy != null && filterVal != null){
+            countCriteriaQuery.select(cb.count(root2)).where(cb.equal(root2.get(filterBy), filterVal));
+        }
+        else{
+            countCriteriaQuery.select(cb.count(root2));
+        }
         TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
         Long countFromDb = realQuery.getResultList().getFirst();
 

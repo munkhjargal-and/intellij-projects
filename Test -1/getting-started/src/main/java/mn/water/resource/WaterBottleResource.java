@@ -1,6 +1,5 @@
 package mn.water.resource;
 
-import io.smallrye.common.constraint.NotNull;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,7 +14,6 @@ import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
 
 @Path("/water-bottles")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -31,10 +29,6 @@ public class WaterBottleResource {
     @ServerExceptionMapper
     public RestResponse<String> mapException(WebApplicationException x) {
         return RestResponse.status(Response.Status.NOT_FOUND, x.getMessage());
-    }
-    @GET
-    public List<WaterBottle> getAll() {
-        return service.getAll();
     }
 
     @GET
@@ -61,12 +55,7 @@ public class WaterBottleResource {
         if(pageSize < 0){
             throw new BadRequestException("Enter A Valid PageSize");
         }
-        if(filterBy == null){
-            throw new BadRequestException("Enter A Value For FilterBy");
-        }
-        if(filterVal == null){
-            throw new BadRequestException("Enter A Value For FilterVal");
-        }
+
         var sortByA = !sortBy.equals(("brand"));
         var sortByB = !sortBy.equals("capacity");
         var sortByC = !sortBy.equals("barcode");
@@ -78,11 +67,13 @@ public class WaterBottleResource {
         if(sortModeA && sortModeB){
             throw new BadRequestException("Enter A Valid Value For SortMode");
         }
-        var filterByA = !filterBy.equals("brand");
-        var filterByB = !filterBy.equals("capacity");
-        var filterByC = !filterBy.equals("barcode");
-        if(filterByA && filterByB && filterByC){
-            throw new BadRequestException("Enter A Valid Value For filterBy");
+        if(filterBy != null && filterVal != null){
+            var filterByA = !filterBy.equals("brand");
+            var filterByB = !filterBy.equals("capacity");
+            var filterByC = !filterBy.equals("barcode");
+            if(filterByA && filterByB && filterByC){
+                throw new BadRequestException("Enter A Valid Value For filterBy");
+            }
         }
         return service.getPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
     }

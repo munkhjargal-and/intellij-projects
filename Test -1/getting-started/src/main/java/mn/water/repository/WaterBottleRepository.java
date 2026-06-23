@@ -29,16 +29,7 @@ public class WaterBottleRepository {
     public WaterBottle findById(Long id) {
         return em.find(WaterBottle.class, id);
     }
-    public List<WaterBottle> findAll() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<WaterBottle> findAllQuery = cb.createQuery(WaterBottle.class);
-        Root<WaterBottle> root1 = findAllQuery.from(WaterBottle.class);
-        findAllQuery.select(root1);
-        TypedQuery<WaterBottle> realFindAll = em.createQuery(findAllQuery);
-        List<WaterBottle> allBottles;
-        allBottles = realFindAll.getResultList();
-        return allBottles;
-    }
+
     @Transactional
     public WaterBottle findOne(Long id){
         try{
@@ -80,39 +71,6 @@ public class WaterBottleRepository {
     }
 
     @Transactional
-    public SomeDto<WaterBottle> findPage(int page, int pageSize, String sortBy, String sortMode){
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<WaterBottle> dataQuery = cb.createQuery(WaterBottle.class);
-        Root<WaterBottle> root1 = dataQuery.from(WaterBottle.class);
-        dataQuery = dataQuery.select(root1);
-        if(Objects.equals(sortMode, "DESC")){
-            dataQuery.orderBy(
-                    cb.desc(root1.get(sortBy))
-            );
-        }
-        else if (Objects.equals(sortMode, "ASC")){
-            dataQuery.orderBy(
-                    cb.asc(root1.get(sortBy))
-            );
-        }
-        else{
-            dataQuery.orderBy(
-                    cb.asc(root1.get(sortBy))
-            );
-        }
-        TypedQuery<WaterBottle> realDataQuery = em.createQuery(dataQuery);
-        List<WaterBottle> dataFromDb = realDataQuery.getResultList();
-
-        CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
-        Root<WaterBottle> root2 = countCriteriaQuery.from(WaterBottle.class);
-        countCriteriaQuery.select(cb.count(root2));
-        TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
-        Long countFromDb = realQuery.getResultList().getFirst();
-
-        return new SomeDto<>(page, pageSize, countFromDb.intValue(), dataFromDb);
-    }
-    @Transactional
     public SomeDto<WaterBottle> filterPage(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal){
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -134,13 +92,23 @@ public class WaterBottleRepository {
                     cb.asc(root1.get(sortBy))
             );
         }
-        dataQuery.select(root1).where(cb.equal(root1.get(filterBy), filterVal));
+        if(filterBy != null && filterVal != null){
+            dataQuery.select(root1).where(cb.equal(root1.get(filterBy), filterVal));
+        }
+        else{
+            dataQuery.select(root1);
+        }
         TypedQuery<WaterBottle> realDataQuery = em.createQuery(dataQuery);
         List<WaterBottle> dataFromDb = realDataQuery.getResultList();
 
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
         Root<WaterBottle> root2 = countCriteriaQuery.from(WaterBottle.class);
-        countCriteriaQuery.select(cb.count(root2));
+        if(filterBy != null && filterVal != null){
+            countCriteriaQuery.select(cb.count(root2)).where(cb.equal(root2.get(filterBy), filterVal));
+        }
+        else{
+            countCriteriaQuery.select(cb.count(root2));
+        }
         TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
         Long countFromDb = realQuery.getResultList().getFirst();
         

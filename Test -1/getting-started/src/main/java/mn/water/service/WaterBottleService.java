@@ -34,10 +34,6 @@ public class WaterBottleService {
         return dto;
     }
 
-    public List<WaterBottle> getAll() {
-        return repository.findAll();
-    }
-
     @Transactional
     public WaterBottleDto updateBottle(Long id, WaterBottleDto dto) {
 
