@@ -70,7 +70,8 @@ public class VendorRepository {
         realBottle = realFindBottles.getResultList();
         return realBottle;
     }
-    @Transactional
+
+//    @Transactional
     public SomeDto<Vendor> filterPage(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal){
 
         CriteriaBuilder cb = em.getCriteriaBuilder();

@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
+
 @Table(name = "vendor")
 public class Vendor {
     @Id
@@ -19,7 +20,7 @@ public class Vendor {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendor")
-    private List<WaterBottle> bottle = new ArrayList<>();
+    private List<WaterBottle> bottles = new ArrayList<>();
 
     public Vendor(Long id, String name){
         super();
@@ -30,4 +31,5 @@ public class Vendor {
     private Long registrationNumber;
     private Date contractSignedDate;
     private Date getContractEndDate;
-    }
+
+}
