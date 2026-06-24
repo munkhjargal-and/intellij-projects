@@ -1,8 +1,12 @@
 package mn.water.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 @Table(name = "box")
 public class Box {
 
@@ -13,36 +17,5 @@ public class Box {
     private Float width;
     private Float height;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Float getLength() {
-        return length;
-    }
-
-    public void setLength(Float length) {
-        this.length = length;
-    }
-
-    public Float getWidth() {
-        return width;
-    }
-
-    public void setWidth(Float width) {
-        this.width = width;
-    }
-
-    public Float getHeight() {
-        return height;
-    }
-
-    public void setHeight(Float height) {
-        this.height = height;
-    }
 
 }

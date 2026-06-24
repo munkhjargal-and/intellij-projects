@@ -39,7 +39,6 @@ public class WaterBottleResource {
         return service.getOne(id);
     }
     @GET
-    @Path("filter-pages")
     public SomeDto<WaterBottle> filterPages(
             @RestQuery @DefaultValue("0") Integer page,
             @RestQuery @DefaultValue("100") Integer pageSize,
@@ -59,7 +58,8 @@ public class WaterBottleResource {
         var sortByA = !sortBy.equals(("brand"));
         var sortByB = !sortBy.equals("capacity");
         var sortByC = !sortBy.equals("barcode");
-        if(sortByA && sortByB && sortByC) {
+        var sortByD = !sortBy.equals("id");
+        if(sortByA && sortByB && sortByC && sortByD) {
             throw new BadRequestException("Enter A Valid Value For SortBy");
         }
         var sortModeA = !sortMode.equals("ASC");
@@ -77,7 +77,8 @@ public class WaterBottleResource {
             var filterByA = !filterBy.equals("brand");
             var filterByB = !filterBy.equals("capacity");
             var filterByC = !filterBy.equals("barcode");
-            if(filterByA && filterByB && filterByC){
+            var filterByD = !filterBy.equals("id");
+            if(filterByA && filterByB && filterByC && filterByD){
                 throw new BadRequestException("Enter A Valid Value For FilterBy");
             }
         }

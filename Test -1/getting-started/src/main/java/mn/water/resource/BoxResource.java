@@ -42,7 +42,6 @@ public class BoxResource {
         return service.getVolume(id);
     }
     @GET
-    @Path("filter-pages")
     public SomeDto<Box> filterPages(
             @RestQuery @DefaultValue("0") Integer page,
             @RestQuery @DefaultValue("100") Integer pageSize,
@@ -60,7 +59,8 @@ public class BoxResource {
         var sortByA = !sortBy.equals(("length"));
         var sortByB = !sortBy.equals("width");
         var sortByC = !sortBy.equals("height");
-        if(sortByA && sortByB && sortByC) {
+        var sortByD = !sortBy.equals("id");
+        if(sortByA && sortByB && sortByC && sortByD) {
             throw new BadRequestException("Enter A Valid Value For SortBy");
         }
         var sortModeA = !sortMode.equals("ASC");
@@ -78,7 +78,8 @@ public class BoxResource {
             var filterByA = !filterBy.equals("length");
             var filterByB = !filterBy.equals("width");
             var filterByC = !filterBy.equals("height");
-            if(filterByA && filterByB && filterByC){
+            var filterByD = !filterBy.equals("id");
+            if(filterByA && filterByB && filterByC && filterByD){
                 throw new BadRequestException("Enter A Valid Value For FilterBy");
             }
         }

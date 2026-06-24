@@ -44,7 +44,6 @@ public class VendorResource {
     }
 
     @GET
-    @Path("filter-pages")
     public SomeDto<Vendor> filterPages(
             @RestQuery @DefaultValue("0") Integer page,
             @RestQuery @DefaultValue("100") Integer pageSize,
@@ -63,7 +62,8 @@ public class VendorResource {
         var sortByB = !sortBy.equals("contractSignedDate");
         var sortByC = !sortBy.equals("getContractEndDate");
         var sortByD = !sortBy.equals("name");
-        if(sortByA && sortByB && sortByC && sortByD) {
+        var sortByE = !sortBy.equals("id");
+        if(sortByA && sortByB && sortByC && sortByD && sortByE) {
             throw new BadRequestException("Enter A Valid Value For SortBy");
         }
         var sortModeA = !sortMode.equals(("ASC"));
@@ -80,7 +80,8 @@ public class VendorResource {
         if(filterBy != null && filterVal != null){
             var filterByA = !filterBy.equals(("registrationNumber"));
             var filterByB = !filterBy.equals("name");
-            if(filterByA && filterByB) {
+            var filterByC = !filterBy.equals("id");
+            if(filterByA && filterByB && filterByC) {
                 throw new BadRequestException("Enter A Valid Value For FilterBy");
             }
         }
