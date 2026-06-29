@@ -1,6 +1,9 @@
 package mn.water.resource;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -45,32 +48,37 @@ public class VendorResource {
 
     @GET
     public SomeDto<Vendor> filterPages(
-            @RestQuery @DefaultValue("0") Integer page,
-            @RestQuery @DefaultValue("100") Integer pageSize,
-            @RestQuery @DefaultValue("registrationNumber") String sortBy,
-            @RestQuery @DefaultValue("ASC") String sortMode,
-            @RestQuery String filterBy,
-            @RestQuery String filterVal
+            @Valid
+            @RestQuery
+            @DefaultValue("0")
+            @Min(value = 0, message = "page value must be 0 or greater")
+            Integer page,
+
+            @Valid
+            @RestQuery
+            @DefaultValue("100")
+            @Min(value = 1, message = "pageSize value must be 1 or greater")
+            Integer pageSize,
+
+            @RestQuery
+            @DefaultValue("registrationNumber")
+            @Pattern(regexp = "^(registrationNumber|contractSignedDate|getContractEndDate|name|id)$", message = "sortBy must be either registrationNumber, contractSignedDate, getContractEndDate, name, or id")
+            String sortBy,
+
+            @RestQuery
+            @DefaultValue("ASC")
+            @Pattern(regexp = "^(ASC|DESC)$", message = "sortMode must be either ASC or DESC")
+            String sortMode,
+
+            @Valid
+            @RestQuery
+            @Pattern(regexp = "^(registrationNumber|name|id)$", message = "filterBy must be either registrationNumber, name, or id")
+            String filterBy,
+
+            @Valid
+            @RestQuery
+            String filterVal
     ){
-        if(page < 0){
-            throw new BadRequestException("Enter A Valid PageNumber");
-        }
-        if(pageSize < 0){
-            throw new BadRequestException("Enter A Valid PageSize");
-        }
-        var sortByA = !sortBy.equals(("registrationNumber"));
-        var sortByB = !sortBy.equals("contractSignedDate");
-        var sortByC = !sortBy.equals("getContractEndDate");
-        var sortByD = !sortBy.equals("name");
-        var sortByE = !sortBy.equals("id");
-        if(sortByA && sortByB && sortByC && sortByD && sortByE) {
-            throw new BadRequestException("Enter A Valid Value For SortBy");
-        }
-        var sortModeA = !sortMode.equals(("ASC"));
-        var sortModeB = !sortMode.equals("DESC");
-        if(sortModeA && sortModeB) {
-            throw new BadRequestException("Enter A Valid Value For SortMode");
-        }
         if(filterBy != null && filterVal == null){
             throw new BadRequestException("Enter a Value For FilterVal");
         }

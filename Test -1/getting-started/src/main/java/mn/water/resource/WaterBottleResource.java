@@ -1,6 +1,9 @@
 package mn.water.resource;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -19,6 +22,9 @@ import org.slf4j.LoggerFactory;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class WaterBottleResource {
+
+    private static final java.util.regex.Pattern testPattern = java.util.regex.Pattern.compile("^(ASC|DESC)$");
+
     private static final Logger log = LoggerFactory.getLogger(WaterBottleResource.class);
 
     @Inject
@@ -38,35 +44,41 @@ public class WaterBottleResource {
     ) {
         return service.getOne(id);
     }
+
     @GET
     public SomeDto<WaterBottle> filterPages(
-            @RestQuery @DefaultValue("0") Integer page,
-            @RestQuery @DefaultValue("100") Integer pageSize,
-            @RestQuery @DefaultValue("barcode") String sortBy,
-            @RestQuery @DefaultValue("ASC") String sortMode,
-            @RestQuery String filterBy,
-            @RestQuery String filterVal
+            @Valid
+            @RestQuery
+            @DefaultValue("0")
+            @Min(value = 0, message = "page value must be 0 or greater")
+            Integer page,
+
+            @Valid
+            @RestQuery
+            @DefaultValue("100")
+            @Min(value = 1, message = "pageSize value must be 1 or greater")
+            Integer pageSize,
+
+            @RestQuery
+            @DefaultValue("barcode")
+            @Pattern(regexp = "^(brand|capacity|barcode|id)$", message = "sortBy must be either brand, capacity, barcode, or id")
+            String sortBy,
+
+            @RestQuery
+            @DefaultValue("ASC")
+            @Pattern(regexp = "^(ASC|DESC)$", message = "sortMode must be either ASC or DESC")
+            String sortMode,
+
+            @Valid
+            @RestQuery
+            @Pattern(regexp = "^(brand|capacity|barcode|id)$", message = "filterBy must be either brand, capacity, barcode, or id")
+            String filterBy,
+
+            @Valid
+            @RestQuery
+            String filterVal
     ){
 
-        if(page < 0){
-            throw new BadRequestException("Enter A Valid PageNumber");
-        }
-        if(pageSize < 0){
-            throw new BadRequestException("Enter A Valid PageSize");
-        }
-
-        var sortByA = !sortBy.equals(("brand"));
-        var sortByB = !sortBy.equals("capacity");
-        var sortByC = !sortBy.equals("barcode");
-        var sortByD = !sortBy.equals("id");
-        if(sortByA && sortByB && sortByC && sortByD) {
-            throw new BadRequestException("Enter A Valid Value For SortBy");
-        }
-        var sortModeA = !sortMode.equals("ASC");
-        var sortModeB = !sortMode.equals("DESC");
-        if(sortModeA && sortModeB){
-            throw new BadRequestException("Enter A Valid Value For SortMode");
-        }
         if(filterBy != null && filterVal == null){
             throw new BadRequestException("Enter a Value For FilterVal");
         }
