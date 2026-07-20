@@ -83,4 +83,8 @@ public class VendorService {
         return vendorRepository.filterPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
 
     }
+
+    public List<WaterBottle> bottlesOfVendor(Long id) {
+        return repository.vendorBottles(id);
+    }
 }

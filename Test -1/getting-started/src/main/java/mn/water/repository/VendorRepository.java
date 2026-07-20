@@ -117,4 +117,8 @@ public class VendorRepository {
 
         return new SomeDto<>(page, pageSize, countFromDb.intValue(), dataFromDb);
     }
+
+    public List<WaterBottle> vendorBottles(Long id) {
+        return null;
+    }
 }

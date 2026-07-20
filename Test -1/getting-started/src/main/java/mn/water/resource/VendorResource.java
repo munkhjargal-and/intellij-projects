@@ -96,6 +96,15 @@ public class VendorResource {
         return service.getPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
     }
 
+
+    @GET
+    @Path("/bottle/{vendorId}")
+    public List<WaterBottle> bottlesOfVendor(
+            @PathParam("vendorId") Long id
+    ) {
+        Vendor vendor = this.getOne(id);
+        return service.bottlesOfVendor(id);
+    }
     @POST
     public VendorDto createVendor(VendorDto dto) {
         return service.createVendor(dto);
