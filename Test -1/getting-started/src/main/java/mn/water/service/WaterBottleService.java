@@ -8,6 +8,7 @@ import mn.water.dto.SomeDto;
 import mn.water.dto.WaterBottleDto;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
+import mn.water.repository.VendorRepository;
 import mn.water.repository.WaterBottleRepository;
 import java.util.List;
 
@@ -18,14 +19,18 @@ public class WaterBottleService {
     WaterBottleRepository repository;
     @Inject
     WaterBottleRepository waterBottleRepository;
+    @Inject
+    VendorRepository vendorRepository;
 
     @Transactional
     public WaterBottleDto createBottle(WaterBottleDto dto) {
-
         WaterBottle bottle = new WaterBottle();
         bottle.setBrand(dto.getBrand());
         bottle.setCapacity(dto.getCapacity());
         bottle.setBarcode(dto.getBarcode());
+
+        Vendor vendor = vendorRepository.findById(dto.getVendorId());
+        bottle.setVendor(vendor);
 
         repository.persist(bottle);
 
@@ -47,6 +52,9 @@ public class WaterBottleService {
         bottle.setCapacity(dto.getCapacity());
         bottle.setBarcode(dto.getBarcode());
 
+        Vendor vendor = vendorRepository.findById(dto.getVendorId());
+        bottle.setVendor(vendor);
+        waterBottleRepository.persist(bottle);
         repository.update(bottle);
 
         dto.setId(id);

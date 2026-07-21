@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
@@ -119,6 +120,11 @@ public class VendorRepository {
     }
 
     public List<WaterBottle> vendorBottles(Long id) {
-        return null;
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<WaterBottle> cq = cb.createQuery(WaterBottle.class);
+        Root<Vendor> root1 = cq.from(Vendor.class);
+        Join<Vendor, WaterBottle> bottleJoin = root1.join("bottles");
+        cq.select(bottleJoin).where(cb.equal(root1.get("id"), id));
+        return em.createQuery(cq).getResultList();
     }
 }

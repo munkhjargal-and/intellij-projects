@@ -1,5 +1,6 @@
 package mn.water.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,10 @@ public class WaterBottle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id")
-    Vendor vendor;
+    @JsonBackReference
+    private Vendor vendor;
 
     private String brand;
 
