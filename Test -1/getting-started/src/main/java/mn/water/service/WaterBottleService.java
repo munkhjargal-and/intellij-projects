@@ -74,16 +74,53 @@ public class WaterBottleService {
         repository.delete(bottle);
     }
 
+    private WaterBottleDto toDto(WaterBottle bottle) {
+        WaterBottleDto dto = new WaterBottleDto();
+
+        dto.setId(bottle.getId());
+        dto.setBrand(bottle.getBrand());
+        dto.setCapacity(bottle.getCapacity());
+        dto.setBarcode(bottle.getBarcode());
+
+        if (bottle.getVendor() != null) {
+            dto.setVendorId(bottle.getVendor().getId());
+        }
+
+        return dto;
+    }
+
     @Transactional
-    public WaterBottle getOne(Long id) {
-        return repository.findOne(id);
+    public WaterBottleDto getOne(Long id) {
+
+        WaterBottle bottle = repository.findOne(id);
+
+        return toDto(bottle);
     }
 
     public List<WaterBottle> getBottlesByVendor(Vendor vendor) {
         return waterBottleRepository.findBottlesByVendor(vendor);
     }
+    public SomeDto<WaterBottleDto> getPage(
+            int page,
+            int pageSize,
+            String sortBy,
+            String sortMode,
+            String filterBy,
+            String filterVal) {
 
-    public SomeDto<WaterBottle> getPage(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal) {
-        return waterBottleRepository.filterPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
+        SomeDto<WaterBottle> result =
+                waterBottleRepository.filterPage(page, pageSize, sortBy, sortMode, filterBy, filterVal);
+
+        List<WaterBottleDto> dtoList = result.getData()
+                .stream()
+                .map(this::toDto)
+                .toList();
+
+        return new SomeDto<>(
+                result.getPage(),
+                result.getPageSize(),
+                result.getTotal(),
+                dtoList
+        );
     }
 }

@@ -39,14 +39,13 @@ public class WaterBottleResource {
 
     @GET
     @Path("/{id}")
-    public WaterBottle getOne(
+    public WaterBottleDto getOne(
             @PathParam("id") Long id
     ) {
         return service.getOne(id);
     }
-
     @GET
-    public SomeDto<WaterBottle> filterPages(
+    public SomeDto<WaterBottleDto> filterPages(
             @Valid
             @RestQuery
             @DefaultValue("0")

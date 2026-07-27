@@ -10,6 +10,7 @@ import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import mn.water.dto.SomeDto;
+import mn.water.dto.WaterBottleDto;
 import mn.water.entity.Vendor;
 import mn.water.entity.WaterBottle;
 import java.util.List;
