@@ -17,5 +17,11 @@ public class Box {
     private Float width;
     private Float height;
 
-
+    @Transient
+    public Float getVolume() {
+        if (length == null || width == null || height == null) {
+            return null;
+        }
+        return length * width * height;
+    }
 }
