@@ -21,4 +21,6 @@ public class WaterBottleDto {
     @NotBlank(message = "barcode may not be blank")
     private String barcode;
 
+    private String vendorName;
+
 }

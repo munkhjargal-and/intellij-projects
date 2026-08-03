@@ -4,9 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import mn.water.dto.SomeDto;
@@ -77,6 +75,7 @@ public class WaterBottleRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<WaterBottle> dataQuery = cb.createQuery(WaterBottle.class);
         Root<WaterBottle> root1 = dataQuery.from(WaterBottle.class);
+        root1.fetch("vendor", JoinType.LEFT);
         dataQuery = dataQuery.select(root1);
         if(Objects.equals(sortMode, "DESC")){
             dataQuery.orderBy(

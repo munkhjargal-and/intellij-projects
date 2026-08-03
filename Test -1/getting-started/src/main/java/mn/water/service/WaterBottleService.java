@@ -84,6 +84,7 @@ public class WaterBottleService {
 
         if (bottle.getVendor() != null) {
             dto.setVendorId(bottle.getVendor().getId());
+            dto.setVendorName(bottle.getVendor().getName());
         }
 
         return dto;
