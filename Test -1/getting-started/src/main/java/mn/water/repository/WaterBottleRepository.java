@@ -30,8 +30,8 @@ public class WaterBottleRepository {
     }
 
     @Transactional
-    public WaterBottle findOne(Long id){
-        try{
+    public WaterBottle findOne(Long id) {
+        try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<WaterBottle> findOneQuery = cb.createQuery(WaterBottle.class);
             Root<WaterBottle> root1 = findOneQuery.from(WaterBottle.class);
@@ -40,10 +40,11 @@ public class WaterBottleRepository {
             WaterBottle oneBottle;
             oneBottle = realFindOne.getSingleResult();
             return oneBottle;
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new NotFoundException(e);
         }
     }
+
     public void update(WaterBottle bottle) {
         em.merge(bottle);
     }
@@ -53,8 +54,8 @@ public class WaterBottleRepository {
     }
 
     @Transactional
-    public List<WaterBottle> findBottlesByVendor(Vendor vendor){
-        try{
+    public List<WaterBottle> findBottlesByVendor(Vendor vendor) {
+        try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<WaterBottle> findBottlesByVendorQuery = cb.createQuery(WaterBottle.class);
             Root<WaterBottle> root1 = findBottlesByVendorQuery.from(WaterBottle.class);
@@ -70,50 +71,124 @@ public class WaterBottleRepository {
     }
 
     @Transactional
-    public SomeDto<WaterBottle> filterPage(int page, int pageSize, String sortBy, String sortMode, String filterBy, String filterVal){
-
+    public SomeDto<WaterBottle> filterPage(
+            int page,
+            int pageSize,
+            String sortBy,
+            String sortMode,
+            String filterBy,
+            String filterVal
+    ) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<WaterBottle> dataQuery = cb.createQuery(WaterBottle.class);
-        Root<WaterBottle> root1 = dataQuery.from(WaterBottle.class);
-        root1.fetch("vendor", JoinType.LEFT);
-        dataQuery = dataQuery.select(root1);
-        if(Objects.equals(sortMode, "DESC")){
-            dataQuery.orderBy(
-                    cb.desc(root1.get(sortBy))
-            );
-        }
-        else if (Objects.equals(sortMode, "ASC")){
-            dataQuery.orderBy(
-                    cb.asc(root1.get(sortBy))
-            );
-        }
-        else{
-            dataQuery.orderBy(
-                    cb.asc(root1.get(sortBy))
-            );
-        }
-        if(filterBy != null && filterVal != null){
-            dataQuery.select(root1).where(cb.equal(root1.get(filterBy), filterVal));
-        }
-        else{
-            dataQuery.select(root1);
-        }
-        TypedQuery<WaterBottle> realDataQuery = em.createQuery(dataQuery);
-        realDataQuery.setMaxResults(pageSize);
-        realDataQuery.setFirstResult(page * pageSize);
-        List<WaterBottle> dataFromDb = realDataQuery.getResultList();
 
-        CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class);
-        Root<WaterBottle> root2 = countCriteriaQuery.from(WaterBottle.class);
-        if(filterBy != null && filterVal != null){
-            countCriteriaQuery.select(cb.count(root2)).where(cb.equal(root2.get(filterBy), filterVal));
+        // =========================
+        // DATA QUERY
+        // =========================
+
+        CriteriaQuery<WaterBottle> dataQuery =
+                cb.createQuery(WaterBottle.class);
+
+        Root<WaterBottle> bottle =
+                dataQuery.from(WaterBottle.class);
+
+        // JOIN WaterBottle -> Vendor
+        Join<WaterBottle, Vendor> vendor =
+                bottle.join("vendor", JoinType.LEFT);
+
+        // Decide which database field to sort by
+        Expression<?> sortExpression;
+
+        if ("vendorId".equals(sortBy)) {
+            sortExpression = vendor.get("id");
+        } else if ("vendorName".equals(sortBy)) {
+            sortExpression = vendor.get("name");
+        } else {
+            sortExpression = bottle.get(sortBy);
         }
-        else{
-            countCriteriaQuery.select(cb.count(root2));
+
+        // Sort
+        if ("DESC".equalsIgnoreCase(sortMode)) {
+            dataQuery.orderBy(cb.desc(sortExpression));
+        } else {
+            dataQuery.orderBy(cb.asc(sortExpression));
         }
-        TypedQuery<Long> realQuery = em.createQuery(countCriteriaQuery);
-        Long countFromDb = realQuery.getResultList().getFirst();
-        
-        return new SomeDto<>(page, pageSize, countFromDb.intValue(), dataFromDb);
+
+        // Filter
+        if (filterBy != null && !filterBy.isBlank()
+                && filterVal != null && !filterVal.isBlank()) {
+
+            Expression<?> filterExpression;
+
+            if ("vendorId".equals(filterBy)) {
+                filterExpression = vendor.get("id");
+            } else if ("vendorName".equals(filterBy)) {
+                filterExpression = vendor.get("name");
+            } else {
+                filterExpression = bottle.get(filterBy);
+            }
+
+            dataQuery.where(
+                    cb.equal(filterExpression, filterVal)
+            );
+        }
+
+        dataQuery.select(bottle);
+
+        TypedQuery<WaterBottle> query =
+                em.createQuery(dataQuery);
+
+        query.setMaxResults(pageSize);
+        query.setFirstResult(page * pageSize);
+
+        List<WaterBottle> dataFromDb =
+                query.getResultList();
+
+
+        // =========================
+        // COUNT QUERY
+        // =========================
+
+        CriteriaQuery<Long> countQuery =
+                cb.createQuery(Long.class);
+
+        Root<WaterBottle> countBottle =
+                countQuery.from(WaterBottle.class);
+
+        if (filterBy != null && !filterBy.isBlank()
+                && filterVal != null && !filterVal.isBlank()) {
+
+            Join<WaterBottle, Vendor> countVendor =
+                    countBottle.join("vendor", JoinType.LEFT);
+
+            Expression<?> countFilterExpression;
+
+            if ("vendorId".equals(filterBy)) {
+                countFilterExpression = countVendor.get("id");
+            } else if ("vendorName".equals(filterBy)) {
+                countFilterExpression = countVendor.get("name");
+            } else {
+                countFilterExpression = countBottle.get(filterBy);
+            }
+
+            countQuery
+                    .select(cb.count(countBottle))
+                    .where(cb.equal(
+                            countFilterExpression,
+                            filterVal
+                    ));
+
+        } else {
+            countQuery.select(cb.count(countBottle));
+        }
+
+        Long countFromDb =
+                em.createQuery(countQuery).getSingleResult();
+
+        return new SomeDto<>(
+                page,
+                pageSize,
+                countFromDb.intValue(),
+                dataFromDb
+        );
     }
 }

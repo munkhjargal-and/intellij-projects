@@ -60,7 +60,7 @@ public class WaterBottleResource {
 
             @RestQuery
             @DefaultValue("barcode")
-            @Pattern(regexp = "^(brand|capacity|barcode|id)$", message = "sortBy must be either brand, capacity, barcode, or id")
+            @Pattern(regexp = "^(brand|capacity|barcode|id|vendorId|vendorName)$", message = "sortBy must be either brand, capacity, barcode, id, vendorId, or vendorName")
             String sortBy,
 
             @RestQuery
@@ -70,7 +70,7 @@ public class WaterBottleResource {
 
             @Valid
             @RestQuery
-            @Pattern(regexp = "^(brand|capacity|barcode|id)$", message = "filterBy must be either brand, capacity, barcode, or id")
+            @Pattern(regexp = "^(brand|capacity|barcode|id|vendorId|vendorName)$", message = "filterBy must be either brand, capacity, barcode, id, vendorId, or vendorName")
             String filterBy,
 
             @Valid
@@ -89,7 +89,9 @@ public class WaterBottleResource {
             var filterByB = !filterBy.equals("capacity");
             var filterByC = !filterBy.equals("barcode");
             var filterByD = !filterBy.equals("id");
-            if(filterByA && filterByB && filterByC && filterByD){
+            var filterByE = !filterBy.equals("vendorId");
+            var filterByF = !filterBy.equals("vendorName");
+            if(filterByA && filterByB && filterByC && filterByD && filterByE && filterByF){
                 throw new BadRequestException("Enter A Valid Value For FilterBy");
             }
         }
