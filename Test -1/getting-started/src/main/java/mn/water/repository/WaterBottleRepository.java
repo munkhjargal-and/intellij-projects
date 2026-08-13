@@ -81,21 +81,15 @@ public class WaterBottleRepository {
     ) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
-        // =========================
-        // DATA QUERY
-        // =========================
-
         CriteriaQuery<WaterBottle> dataQuery =
                 cb.createQuery(WaterBottle.class);
 
         Root<WaterBottle> bottle =
                 dataQuery.from(WaterBottle.class);
 
-        // JOIN WaterBottle -> Vendor
         Join<WaterBottle, Vendor> vendor =
                 bottle.join("vendor", JoinType.LEFT);
 
-        // Decide which database field to sort by
         Expression<?> sortExpression;
 
         if ("vendorId".equals(sortBy)) {
@@ -106,14 +100,12 @@ public class WaterBottleRepository {
             sortExpression = bottle.get(sortBy);
         }
 
-        // Sort
         if ("DESC".equalsIgnoreCase(sortMode)) {
             dataQuery.orderBy(cb.desc(sortExpression));
         } else {
             dataQuery.orderBy(cb.asc(sortExpression));
         }
 
-        // Filter
         if (filterBy != null && !filterBy.isBlank()
                 && filterVal != null && !filterVal.isBlank()) {
 
@@ -142,11 +134,6 @@ public class WaterBottleRepository {
 
         List<WaterBottle> dataFromDb =
                 query.getResultList();
-
-
-        // =========================
-        // COUNT QUERY
-        // =========================
 
         CriteriaQuery<Long> countQuery =
                 cb.createQuery(Long.class);
