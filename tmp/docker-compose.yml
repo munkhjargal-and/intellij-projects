@@ -1,0 +1,18 @@
+# Real PostgreSQL for the WaterBottle Quarkus backend.
+# Backend expects: jdbc:postgresql://localhost:5433/waterdb, user postgres, password 1234
+# (host port 5433 because 5432 is already in use; override via QUARKUS_DATASOURCE_JDBC_URL)
+services:
+  db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: waterdb
+    environment:
+      POSTGRES_DB: waterdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "1234"
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d waterdb"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
