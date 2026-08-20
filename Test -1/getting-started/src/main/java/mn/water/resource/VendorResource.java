@@ -62,7 +62,7 @@ public class VendorResource {
 
             @RestQuery
             @DefaultValue("registrationNumber")
-            @Pattern(regexp = "^(registrationNumber|contractSignedDate|getContractEndDate|name|id)$", message = "sortBy must be either registrationNumber, contractSignedDate, getContractEndDate, name, or id")
+            @Pattern(regexp = "^(registrationNumber|contractSignedDate|contractEndDate|name|id)$", message = "sortBy must be either registrationNumber, contractSignedDate, contractEndDate, name, or id")
             String sortBy,
 
             @RestQuery

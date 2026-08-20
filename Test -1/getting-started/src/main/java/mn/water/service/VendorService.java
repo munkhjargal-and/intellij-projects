@@ -30,7 +30,7 @@ public class VendorService {
         vendor.setName(dto.getName());
         vendor.setRegistrationNumber(dto.getRegistrationNumber());
         vendor.setContractSignedDate(dto.getContractSignedDate());
-        vendor.setGetContractEndDate(dto.getContractEndDate());
+        vendor.setContractEndDate(dto.getContractEndDate());
 
         repository.persist(vendor);
         dto.setId(vendor.getId());
@@ -52,7 +52,7 @@ public class VendorService {
          vendor.setName(dto.getName());
          vendor.setRegistrationNumber(dto.getRegistrationNumber());
          vendor.setContractSignedDate(dto.getContractSignedDate());
-         vendor.setGetContractEndDate(dto.getContractEndDate());
+         vendor.setContractEndDate(dto.getContractEndDate());
 
          repository.update(vendor);
          dto.setId(id);

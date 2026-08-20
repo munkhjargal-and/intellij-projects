@@ -32,6 +32,6 @@ public class Vendor {
 
     private Long registrationNumber;
     private Date contractSignedDate;
-    private Date getContractEndDate;
+    private Date contractEndDate;
 
 }
