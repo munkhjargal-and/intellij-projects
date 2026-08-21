@@ -58,6 +58,14 @@ The pattern you should now recognize: **`POST` and `PUT` return the item directl
 
 ---
 
+## Part 3 — After the bugs are fixed, reorganize the code
+
+Once every item above works, your bugs are fixed but the code is hard to live with: three 250–370 line page files, each doing five jobs at once, with most of the code copy-pasted between them. Fixing the same bug in three files is exactly how the mess above happened.
+
+**Read `frontend-code-organization.md` in this folder and follow it from start to finish.** It splits your pages into small single-purpose files — `api.js` for fetches, hooks for data state, form components for the modals — with complete copy-paste-ready code, no new libraries. It also fixes a few of this guide's items as a side effect (the delete-refresh pattern, the Registration Number prefill). Do the bug fixes first, then the reorganization — fixing bugs is easier in code you already understand, and reorganizing is safer once the behavior is correct.
+
+---
+
 ## When you're done
 
 - [ ] Delete refreshes the list on all three pages, no console error
